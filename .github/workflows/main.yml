@@ -24,5 +24,12 @@ jobs:
     - name: Build the test project
       run: dotnet build --no-restore
 
+    - name: Install Edge and EdgeDriver
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y microsoft-edge-stable
+        sudo apt-get install -y microsoft-edge-webdriver
+
+
     - name: Run tests
       run: dotnet test --logger trx --results-directory TestResults

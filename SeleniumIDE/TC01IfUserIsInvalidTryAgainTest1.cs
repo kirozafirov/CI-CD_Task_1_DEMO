@@ -22,12 +22,25 @@ public class TC01IfUserIsInvalidTryAgainTest
     [SetUp]
     public void SetUp()
     {
-        driver = new EdgeDriver(); // Стартираме Edge
-        js = (IJavaScriptExecutor)driver;
-        vars = new Dictionary<string, object>();
+        EdgeOptions options = new EdgeOptions();
 
-        driver.Manage().Window.Maximize(); // Максимализираме прозореца
-        driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+        options.AddArgument("headless"); // Стартира браузъра в headless режим (без UI)
+        options.AddArgument("no-sandbox");
+        options.AddArgument("disable-dev-shm-usage");
+        options.AddArgument("disable-gpu");
+
+        string userDataDir = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        Directory.CreateDirectory(userDataDir);
+
+        options.AddArgument($"user-data-dir={userDataDir}");
+
+        IWebDriver driver = new EdgeDriver(options); // Стартиране на Edge
+
+        IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+        Dictionary<string, object> vars = new Dictionary<string, object>();
+
+        driver.Manage().Window.Maximize(); // Максимализиране на прозореца
+        driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10); 
     }
 
     [TearDown]

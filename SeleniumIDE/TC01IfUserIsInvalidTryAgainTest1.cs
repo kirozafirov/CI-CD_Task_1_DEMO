@@ -24,7 +24,7 @@ public class TC01IfUserIsInvalidTryAgainTest
     {
         EdgeOptions options = new EdgeOptions();
 
-        options.AddArgument("headless"); // Стартира браузъра в headless режим (без UI)
+        options.AddArgument("headless"); 
         options.AddArgument("no-sandbox");
         options.AddArgument("disable-dev-shm-usage");
         options.AddArgument("disable-gpu");
@@ -34,12 +34,12 @@ public class TC01IfUserIsInvalidTryAgainTest
 
         options.AddArgument($"user-data-dir={userDataDir}");
 
-        IWebDriver driver = new EdgeDriver(options); // Стартиране на Edge
+        IWebDriver driver = new EdgeDriver(options); 
 
         IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
         Dictionary<string, object> vars = new Dictionary<string, object>();
 
-        driver.Manage().Window.Maximize(); // Максимализиране на прозореца
+        driver.Manage().Window.Maximize(); 
         driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10); 
     }
 

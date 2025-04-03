@@ -1,4 +1,4 @@
-name: Selenium IDE Project
+name: Selenium Tests
 
 on:
   push:
@@ -6,30 +6,29 @@ on:
       - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '6.0.x'
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          sudo apt-get install -y chromium-chromedriver
+          
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'	 
 
-    - name: Install NuGet packages
-      run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Build the test project
-      run: dotnet build --no-restore
+      - name: Build the project
+        run: dotnet build --no-restore
 
-    - name: Install Edge and EdgeDriver
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y microsoft-edge-stable
-        sudo apt-get install -y microsoft-edge-webdriver
-
-
-    - name: Run tests
-      run: dotnet test --logger trx --results-directory TestResults
+      - name: Run tests
+        run: dotnet test
